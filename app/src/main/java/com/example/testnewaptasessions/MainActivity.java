@@ -27,45 +27,62 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setTitle("Progress Dialog");
         progressDialog.setMessage("Please wait");
         progressDialog.setCancelable(false);
-        long progress = 3000L;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressDialog.dismiss();
-            }
-        },progress);
-        progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if(progressDialog.getProgress()<progressDialog.getMax()){
-                    progressDialog.incrementProgressBy(2);
-                }
-                else {
-                    progressDialog.dismiss();
-                }
-            }
-        },0,progress);
+        final long progress = 3000L;
+        long secondaryProgress = 1500L;
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                progressDialog.dismiss();
+//            }
+//        },progress);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+       new Timer().scheduleAtFixedRate(new TimerTask() {
+           @Override
+           public void run() {
+               if(progressDialog.getProgress() < progressDialog.getMax()){
+                   progressDialog.incrementProgressBy(12);
+               }
+              else {
+                  progressDialog.dismiss();
+               }
+           }
+       },0,progress);
+       new Timer().scheduleAtFixedRate(new TimerTask() {
+           @Override
+           public void run() {
+               if(progressDialog.getProgress() < progressDialog.getMax()){
+                   progressDialog.incrementSecondaryProgressBy(22);
+               }
+           }
+       },0,secondaryProgress);
         progressDialog.show();
     }
 
     public void showAlert(View view){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Alert Dialog")
-                .setMessage("Do you want to delete this file?")
-                .setCancelable(false)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//        alertDialog.setTitle("Alert Dialog")
+//                .setMessage("Do you want to delete this file?")
+//                .setCancelable(false)
+//                .setIcon(android.R.drawable.ic_dialog_alert)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(MainActivity.this,"files deleted",Toast.LENGTH_LONG).show();
+//                    }
+//                })
+//                .setNegativeButton("No",null)
+//                .setNeutralButton("`Cancel`",null)
+//                .show();
+        alertDialog.setCancelable(false)
+                .setTitle("Question")
+                .setSingleChoiceItems(new String[]{"A", "B", "C"}, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MainActivity.this,"files deleted",Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this,"which"+which,Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("No",null)
-                .setNeutralButton("`Cancel`",null)
+                .setPositiveButton("OK",null)
                 .show();
-
-
 
     }
 }
